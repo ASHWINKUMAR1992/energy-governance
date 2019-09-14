@@ -1,0 +1,23 @@
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+spring:
+  application:
+    name: energy-governance
+    thymeleaf:
+      mode: HTML
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: false
+
+server:
+  servlet:
+    context-path: /energy-governance
+    session:
+      cookie:
+        http-only: true
+  port: 8080
