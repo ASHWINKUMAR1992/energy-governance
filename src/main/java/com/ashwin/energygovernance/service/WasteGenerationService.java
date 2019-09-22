@@ -12,7 +12,6 @@ import com.ashwin.energygovernance.repository.WasteGenerationRepository;
 @Service
 public class WasteGenerationService extends AbstractService<WasteGeneration, BigInteger> {
 
-  @Autowired
   private WasteGenerationRepository wasteGenerationRepository;
 
   public Set<WasteGeneration> findResourceByHotelId(BigInteger hotelId) {
@@ -29,4 +28,12 @@ public class WasteGenerationService extends AbstractService<WasteGeneration, Big
     return this.wasteGenerationRepository;
   }
 
+  /**
+   * 
+   * @param repository
+   */
+  @Autowired
+  public WasteGenerationService(WasteGenerationRepository repository) {
+    this.wasteGenerationRepository = repository;
+  }
 }

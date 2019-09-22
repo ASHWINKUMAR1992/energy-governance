@@ -9,8 +9,6 @@ import static com.ashwin.energygovernance.common.constants.CommonConstants.TABLE
 import java.time.OffsetDateTime;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 // Table entity class with audit listener
@@ -20,7 +18,6 @@ public abstract class TableEntity<K> {
   // private variable created
   @Column(name = "updated")
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = TABLE_JSON_DATE_PATTERN)
-  @Temporal(TemporalType.TIMESTAMP)
   private OffsetDateTime updated;
 
   /**

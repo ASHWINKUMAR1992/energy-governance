@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,13 +20,13 @@ public class ElectricityConsumption extends TableEntity<BigInteger> implements S
 
   @Id
   @Column(name = "id", updatable = false)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue(strategy = GenerationType.AUTO, generator = "hotels.electricity_consumption_id_seq")
   private BigInteger id;
 
   @Column(name = "quantity")
-  private String quantity;
+  private BigInteger quantity;
 
-  @ManyToOne(optional = false)
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "hotel_id", nullable = false)
   private Hotel hotel;
 
@@ -37,11 +38,11 @@ public class ElectricityConsumption extends TableEntity<BigInteger> implements S
     this.id = id;
   }
 
-  public String getQuantity() {
+  public BigInteger getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(String quantity) {
+  public void setQuantity(BigInteger quantity) {
     this.quantity = quantity;
   }
 
@@ -51,6 +52,15 @@ public class ElectricityConsumption extends TableEntity<BigInteger> implements S
 
   public void setHotel(Hotel hotel) {
     this.hotel = hotel;
+  }
+
+  public ElectricityConsumption(BigInteger id, BigInteger quantity) {
+    super();
+    this.id = id;
+    this.quantity = quantity;
+  }
+
+  public ElectricityConsumption() {
   }
 
 }

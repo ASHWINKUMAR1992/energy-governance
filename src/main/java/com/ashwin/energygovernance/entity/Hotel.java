@@ -22,7 +22,7 @@ public class Hotel extends TableEntity<BigInteger> implements Serializable {
 
   @Id
   @Column(name = "id", updatable = false)
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.AUTO, generator = "hotels.hotels_id_seq")
   private BigInteger id;
 
   @Column(name = "hotelname")
@@ -104,6 +104,16 @@ public class Hotel extends TableEntity<BigInteger> implements Serializable {
 
   public void setElectricityConsumptionSet(Set<ElectricityConsumption> electricityConsumptionSet) {
     this.electricityConsumptionSet = electricityConsumptionSet;
+  }
+
+  public Hotel(BigInteger id, String hotelName, String hotelCode) {
+    super();
+    this.id = id;
+    this.hotelName = hotelName;
+    this.hotelCode = hotelCode;
+  }
+
+  public Hotel() {
   }
 
 }

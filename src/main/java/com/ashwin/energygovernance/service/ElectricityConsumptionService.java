@@ -12,7 +12,6 @@ import com.ashwin.energygovernance.repository.ElectricityConsumptionRepository;
 @Service
 public class ElectricityConsumptionService extends AbstractService<ElectricityConsumption, BigInteger> {
 
-  @Autowired
   private ElectricityConsumptionRepository electricityConsumptionRepository;
 
   public Set<ElectricityConsumption> findResourceByHotelId(BigInteger hotelId) {
@@ -29,4 +28,12 @@ public class ElectricityConsumptionService extends AbstractService<ElectricityCo
     return this.electricityConsumptionRepository;
   }
 
+  /**
+   * 
+   * @param repository
+   */
+  @Autowired
+  public ElectricityConsumptionService(ElectricityConsumptionRepository repository) {
+    this.electricityConsumptionRepository = repository;
+  }
 }

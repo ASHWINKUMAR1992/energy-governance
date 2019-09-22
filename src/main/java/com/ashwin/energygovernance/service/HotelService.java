@@ -20,7 +20,6 @@ import com.ashwin.energygovernance.repository.HotelRepository;
 @Service
 public class HotelService extends AbstractService<Hotel, BigInteger> {
 
-  @Autowired
   private HotelRepository hotelRepository;
 
   public List<Hotel> getHotels() {
@@ -41,4 +40,12 @@ public class HotelService extends AbstractService<Hotel, BigInteger> {
     return this.hotelRepository;
   }
 
+  /**
+   * 
+   * @param repository
+   */
+  @Autowired
+  public HotelService(HotelRepository repository) {
+    this.hotelRepository = repository;
+  }
 }

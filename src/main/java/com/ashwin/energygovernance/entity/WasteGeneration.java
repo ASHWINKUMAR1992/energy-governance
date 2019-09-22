@@ -20,11 +20,11 @@ public class WasteGeneration extends TableEntity<BigInteger> implements Serializ
 
   @Id
   @Column(name = "id", updatable = false)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue(strategy = GenerationType.AUTO, generator = "hotels.waste_generation_id_seq")
   private BigInteger id;
 
   @Column(name = "quantity")
-  private String quantity;
+  private BigInteger quantity;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "hotel_id", nullable = false)
@@ -38,11 +38,11 @@ public class WasteGeneration extends TableEntity<BigInteger> implements Serializ
     this.id = id;
   }
 
-  public String getQuantity() {
+  public BigInteger getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(String quantity) {
+  public void setQuantity(BigInteger quantity) {
     this.quantity = quantity;
   }
 
@@ -52,6 +52,15 @@ public class WasteGeneration extends TableEntity<BigInteger> implements Serializ
 
   public void setHotel(Hotel hotel) {
     this.hotel = hotel;
+  }
+
+  public WasteGeneration(BigInteger id, BigInteger quantity) {
+    super();
+    this.id = id;
+    this.quantity = quantity;
+  }
+
+  public WasteGeneration() {
   }
 
 }
