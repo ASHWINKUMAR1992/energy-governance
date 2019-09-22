@@ -24,5 +24,9 @@ You can download it from https://www.postgresql.org/download/macosx/.
 3. You can run the application in 2 ways.  
    1. Right click on the project and `RunAs MavenBuild`.  
    2. Right click on the project `RunAs->RunConfiguration`. Add new run configuration under spring boot app. 
-4. Select project as energy-governance, Main type as "com.ashwin.energygovernance.EnergyGovernanceApplication" and hit `Run`. You can save this configuartion as Customer-Local for easy access in future.
-5. You should see the energy-governance application up and running on port localhost:8080.
+4. Start the Zookeeper intance using the command below.
+zookeeper-server-start /usr/local/etc/kafka/zookeeper.properties
+5. Start the Kafka server using the command below.
+kafka-server-start /usr/local/etc/kafka/server.properties
+6. Select project as energy-governance, Main type as "com.ashwin.energygovernance.EnergyGovernanceApplication" and hit `Run`. You can save this configuration as Customer-Local for easy access in future.
+7. You should see the energy-governance application up and running on port localhost:8080.
