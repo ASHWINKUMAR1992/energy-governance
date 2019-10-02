@@ -6,13 +6,13 @@ CREATE TABLE hotels.hotels
     updated timestamp without time zone NOT NULL,
     hotelcode character varying(255) COLLATE pg_catalog."default",
     hotelname character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT hotels_pkey PRIMARY KEY (id)
+    CONSTRAINT hotels_pkey PRIMARY KEY (id),
+    CONSTRAINT hotel_name_ukey UNIQUE (hotelname)
 )
 WITH (
     OIDS = FALSE
 )
 TABLESPACE pg_default;
-
 ALTER TABLE hotels.hotels
     OWNER to postgres;
 

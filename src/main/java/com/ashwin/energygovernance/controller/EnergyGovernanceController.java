@@ -60,15 +60,15 @@ public class EnergyGovernanceController {
     return new ResponseEntity<>(mapper.getListOfHotelResponse(hotelService.getHotels()), HttpStatus.OK);
   }
 
-  @GetMapping(value = "hotels/{hotelId}/{energyConsumptionType}",
+  @GetMapping(value = "hotels/{hotelId}/{energyType}",
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> getResourceByHotelId(@PathVariable BigInteger hotelId,
-      @PathVariable String energyConsumptionType) {
+      @PathVariable String energyType) {
     LOGGER.debug("GET energyconsumption details by hotel and energyconsumptionType");
-    if ("water".equals(energyConsumptionType)) {
+    if ("water".equals(energyType)) {
       return new ResponseEntity<>(mapper.toWaterConsumptionSetResponse(
           waterConsumptionService.findResourceByHotelId(hotelId)), HttpStatus.OK);
-    } else if ("waste".equals(energyConsumptionType)) {
+    } else if ("waste".equals(energyType)) {
       return new ResponseEntity<>(mapper.toWasteGenerationSetResponse(
           wasteGenerationService.findResourceByHotelId(hotelId)), HttpStatus.OK);
     } else {
@@ -85,32 +85,32 @@ public class EnergyGovernanceController {
     return new ResponseEntity<>(hotelService.insertResource(hotel),HttpStatus.CREATED);
   }
 
-  @PostMapping(value = "/hotels/{hotelId}/{energyConsumptionType}",
+  @PostMapping(value = "/hotels/{hotelId}/{energyType}",
       consumes = MediaType.APPLICATION_JSON_VALUE)
-  public String createEnergyConsumptionTypeProducer(@PathVariable BigInteger hotelId,
-      @PathVariable String energyConsumptionType, @RequestBody String energyConsumptionObject)
+  public ResponseEntity<String> createEnergyConsumptionTypeProducer(@PathVariable BigInteger hotelId,
+      @PathVariable String energyType, @RequestBody String energyConsumptionObject)
       throws IOException {
     LOGGER.info("POST energyconsumption details by hotel and energyconsumptionType through kafka producer");
     ObjectMapper objectMapper = new ObjectMapper();
     Hotel hotel = new Hotel();
     hotel.setId(hotelId);
-    String TOPIC;
-    if ("water".equals(energyConsumptionType)) {
+    String TOPIC = null;
+    if ("water".equals(energyType)) {
       TOPIC = "WATER";
       WaterConsumption waterConsumption =
           objectMapper.readValue(energyConsumptionObject, WaterConsumption.class);
       waterConsumption.setHotel(hotel);
       kafkaTemplate
       .send(MessageBuilder.withPayload(waterConsumption).setHeader(KafkaHeaders.TOPIC, TOPIC).build());
-      return "Published Successfully for topic water";
-    } else if ("waste".equals(energyConsumptionType)) {
+      return new ResponseEntity<String>("Published Successfully for topic water", HttpStatus.OK);
+    } else if ("waste".equals(energyType)) {
       TOPIC = "WASTE";
       WasteGeneration wasteGeneration =
           objectMapper.readValue(energyConsumptionObject, WasteGeneration.class);
       wasteGeneration.setHotel(hotel);
       kafkaTemplate
       .send(MessageBuilder.withPayload(wasteGeneration).setHeader(KafkaHeaders.TOPIC, TOPIC).build());
-      return "Published Successfully for topic waste";
+      return new ResponseEntity<String>("Published Successfully for topic waste", HttpStatus.OK);
     } else {
       TOPIC = "ELECTRICITY";
       ElectricityConsumption electricityConsumption =
@@ -118,7 +118,7 @@ public class EnergyGovernanceController {
       electricityConsumption.setHotel(hotel);
       kafkaTemplate
       .send(MessageBuilder.withPayload(electricityConsumption).setHeader(KafkaHeaders.TOPIC, TOPIC).build());
-      return "Published Successfully for topic electricity";
+      return new ResponseEntity<String>("Published Successfully for topic electricity", HttpStatus.OK);
     }
   }
 }
